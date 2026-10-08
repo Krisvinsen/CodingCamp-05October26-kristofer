@@ -1,0 +1,404 @@
+/* To-Do List Life Dashboard — Styles */
+
+/* =========================================================
+   2.1 — CSS Custom Properties: Light & Dark Theme Variables
+   ========================================================= */
+
+/* Light theme (default) */
+:root {
+  --color-bg:       #f5f5f5;   /* page background */
+  --color-surface:  #ffffff;   /* widget card background */
+  --color-text:     #1a1a1a;   /* primary text */
+  --color-text-muted: #6b7280; /* secondary / muted text */
+  --color-accent:   #4f46e5;   /* interactive accent (buttons, links) */
+  --color-accent-hover: #4338ca; /* accent on hover */
+  --color-border:   #d1d5db;   /* borders and dividers */
+  --color-shadow:   rgba(0, 0, 0, 0.08); /* card shadows */
+  --color-danger:   #dc2626;   /* destructive actions / validation errors */
+  --color-success:  #16a34a;   /* success indicators */
+  --color-disabled: #9ca3af;   /* disabled control foreground */
+  --color-disabled-bg: #e5e7eb; /* disabled control background */
+}
+
+/* Dark theme — applied when <html data-theme="dark"> */
+[data-theme="dark"] {
+  --color-bg:       #111827;
+  --color-surface:  #1f2937;
+  --color-text:     #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-accent:   #818cf8;
+  --color-accent-hover: #a5b4fc;
+  --color-border:   #374151;
+  --color-shadow:   rgba(0, 0, 0, 0.4);
+  --color-danger:   #f87171;
+  --color-success:  #4ade80;
+  --color-disabled: #6b7280;
+  --color-disabled-bg: #374151;
+}
+
+/* =========================================================
+   2.2 — Base Reset, Typography, and Dashboard Layout
+   ========================================================= */
+
+/* --- Box-model reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Base typography --- */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: 1.5rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* --- Dashboard grid container --- */
+/*
+  Responsive two-column grid:
+  - Each widget occupies one column cell.
+  - The task widget spans both columns on larger screens (it needs the most room).
+  - Below 700 px everything stacks into a single column.
+*/
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "theme    greeting"
+    "timer    timer"
+    "tasks    tasks"
+    "links    links";
+  gap: 1.25rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Map each widget section to its grid area */
+#theme-toggle-widget  { grid-area: theme;    }
+#greeting-widget      { grid-area: greeting; }
+#timer-widget         { grid-area: timer;    }
+#task-widget          { grid-area: tasks;    }
+#quick-links-widget   { grid-area: links;    }
+
+/* --- Single-column layout for narrow viewports --- */
+@media (max-width: 699px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "theme"
+      "greeting"
+      "timer"
+      "tasks"
+      "links";
+  }
+}
+
+/* =========================================================
+   2.3 — Widget Card Styles, Inputs, Buttons, and States
+   ========================================================= */
+
+/* --- Widget cards --- */
+/*
+  Every top-level <section> in the dashboard gets the same
+  card treatment: surface background, subtle shadow, and
+  rounded corners. Individual widgets add their own content
+  layout on top of this foundation.
+*/
+.dashboard section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  padding: 1.25rem 1.5rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ─── Greeting widget ───────────────────────────────────── */
+#greeting-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#clock {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+#date-display {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+#greeting-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.name-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* ─── Theme toggle widget ───────────────────────────────── */
+#theme-toggle-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Focus Timer widget ────────────────────────────────── */
+#timer-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#timer-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ─── Task List widget ──────────────────────────────────── */
+#task-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Task items */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg);
+  transition: background-color 0.15s ease;
+}
+
+.task-item:hover {
+  background-color: var(--color-surface);
+}
+
+/* Completed task — strikethrough title with muted colour */
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.task-title {
+  flex: 1;
+  word-break: break-word;
+}
+
+.task-check {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Edit mode input that replaces the title span */
+.task-edit-input {
+  flex: 1;
+}
+
+/* ─── Quick Links widget ────────────────────────────────── */
+#quick-links-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.link-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.link-form input {
+  flex: 1;
+  min-width: 120px;
+}
+
+#quick-links-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 2rem;        /* pill shape */
+  padding: 0.25rem 0.75rem;
+  transition: background-color 0.15s ease;
+}
+
+.link-item:hover {
+  background-color: var(--color-surface);
+}
+
+.link-item a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.link-item a:hover {
+  text-decoration: underline;
+  color: var(--color-accent-hover);
+}
+
+/* =========================================================
+   Shared: Input styles
+   ========================================================= */
+
+input[type="text"],
+input[type="url"] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+input[type="text"]::placeholder,
+input[type="url"]::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+   Shared: Button styles
+   ========================================================= */
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+
+/* Destructive / delete buttons */
+.task-delete-btn,
+.link-delete-btn {
+  background-color: transparent;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.task-delete-btn:hover:not(:disabled),
+.link-delete-btn:hover:not(:disabled) {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+/* Edit / secondary buttons */
+.task-edit-btn,
+.task-save-btn,
+.task-cancel-btn {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.task-edit-btn:hover:not(:disabled),
+.task-save-btn:hover:not(:disabled),
+.task-cancel-btn:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+/* Disabled button appearance */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   Shared: Validation message styles
+   ========================================================= */
+
+.validation-msg {
+  display: none;            /* hidden by default */
+  font-size: 0.85rem;
+  color: var(--color-danger);
+  margin-top: 0.1rem;
+}
+
+.validation-msg.visible {
+  display: block;
+}
