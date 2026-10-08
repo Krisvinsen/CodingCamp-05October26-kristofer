@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List Life Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="js/script.js"></script>
+  </head>
+  <body>
+    <main class="dashboard">
+
+      <!-- Theme Toggle Widget -->
+      <section id="theme-toggle-widget">
+        <button id="theme-toggle-btn" type="button" aria-label="Toggle light/dark theme">
+          🌙 Toggle Theme
+        </button>
+      </section>
+
+      <!-- Greeting Widget -->
+      <section id="greeting-widget">
+        <div id="clock" aria-live="polite" aria-label="Current time">00:00:00</div>
+        <div id="date-display" aria-label="Current date"></div>
+        <div id="greeting-text" aria-live="polite"></div>
+        <div class="name-form">
+          <input
+            type="text"
+            id="name-input"
+            placeholder="Enter your name"
+            aria-label="Your name"
+            autocomplete="off"
+          />
+          <button type="button" id="name-save-btn">Save Name</button>
+        </div>
+      </section>
+
+      <!-- Focus Timer Widget -->
+      <section id="timer-widget">
+        <div id="timer-display" aria-live="polite" aria-label="Timer countdown">25:00</div>
+        <div class="timer-controls">
+          <button type="button" id="timer-start" aria-label="Start timer">Start</button>
+          <button type="button" id="timer-stop" aria-label="Stop timer" disabled>Stop</button>
+          <button type="button" id="timer-reset" aria-label="Reset timer">Reset</button>
+        </div>
+      </section>
+
+      <!-- Task List Widget -->
+      <section id="task-widget">
+        <div class="task-form">
+          <input
+            type="text"
+            id="task-input"
+            placeholder="Add a new task…"
+            aria-label="New task title"
+            autocomplete="off"
+          />
+          <button type="button" id="task-add-btn">Add Task</button>
+        </div>
+        <p id="task-validation-msg" class="validation-msg" aria-live="polite" role="alert"></p>
+        <ul id="task-list" aria-label="Task list"></ul>
+      </section>
+
+      <!-- Quick Links Widget -->
+      <section id="quick-links-widget">
+        <div class="link-form">
+          <input
+            type="text"
+            id="link-label-input"
+            placeholder="Label (e.g. GitHub)"
+            aria-label="Link label"
+            autocomplete="off"
+          />
+          <input
+            type="url"
+            id="link-url-input"
+            placeholder="URL (e.g. https://github.com)"
+            aria-label="Link URL"
+            autocomplete="off"
+          />
+          <button type="button" id="link-add-btn">Add Link</button>
+        </div>
+        <p id="link-validation-msg" class="validation-msg" aria-live="polite" role="alert"></p>
+        <div id="quick-links-panel" aria-label="Quick links"></div>
+      </section>
+
+    </main>
+  </body>
+</html>
